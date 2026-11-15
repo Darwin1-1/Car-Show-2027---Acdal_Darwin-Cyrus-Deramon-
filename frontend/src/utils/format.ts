@@ -16,21 +16,21 @@ const dateAndTime = new Intl.DateTimeFormat('en-PH', {
   timeZone: 'Asia/Manila',
 });
 
-export function formatPeso(value) {
+export function formatPeso(value: number): string {
   return peso.format(Number(value ?? 0));
 }
 
-export function formatCount(value) {
+export function formatCount(value: number): string {
   return wholeNumber.format(Number(value ?? 0));
 }
 
-export function formatDate(value) {
+export function formatDate(value: string): string {
   if (!value) return '—';
   const parsed = new Date(value);
   return Number.isNaN(parsed.getTime()) ? '—' : dateAndTime.format(parsed);
 }
 
-export function formatPercent(part, total) {
+export function formatPercent(part: number, total: number): string {
   if (!total) return '0%';
   return `${Math.round((part / total) * 100)}%`;
 }

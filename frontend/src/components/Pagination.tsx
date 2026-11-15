@@ -1,16 +1,34 @@
 const pageSizes = [5, 10, 20];
 
-function pageNumbers(current, total) {
+function pageNumbers(current: number, total: number): number[] {
   if (total <= 7) return Array.from({ length: total }, (_, index) => index + 1);
 
-  const numbers = new Set([1, total, current, current - 1, current + 1]);
+  const numbers = new Set<number>([1, total, current, current - 1, current + 1]);
   if (current <= 3) [2, 3, 4].forEach((page) => numbers.add(page));
   if (current >= total - 2) [total - 3, total - 2, total - 1].forEach((page) => numbers.add(page));
 
   return [...numbers].filter((page) => page >= 1 && page <= total).sort((left, right) => left - right);
 }
 
-export function Pagination({ page, pageSize, totalCount, totalPages, loading, onPageChange, onPageSizeChange }) {
+interface PaginationProps {
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+  loading: boolean;
+  onPageChange: (page: number) => void;
+  onPageSizeChange: (pageSize: number) => void;
+}
+
+export function Pagination({
+  page,
+  pageSize,
+  totalCount,
+  totalPages,
+  loading,
+  onPageChange,
+  onPageSizeChange,
+}: PaginationProps) {
   const firstRow = totalCount === 0 ? 0 : (page - 1) * pageSize + 1;
   const lastRow = Math.min(page * pageSize, totalCount);
 

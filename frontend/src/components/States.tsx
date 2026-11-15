@@ -1,3 +1,12 @@
+interface EmptyStateProps {
+  onClear: () => void;
+}
+
+interface ErrorStateProps {
+  message: string;
+  onRetry: () => void;
+}
+
 export function LoadingNotice() {
   return (
     <div className="flex items-center gap-3 rounded-xl border border-beige-300 bg-[#fffdf8] px-4 py-3 text-sm text-beige-700 shadow-sm">
@@ -7,7 +16,7 @@ export function LoadingNotice() {
   );
 }
 
-export function EmptyState({ onClear }) {
+export function EmptyState({ onClear }: EmptyStateProps) {
   return (
     <div className="rounded-xl border border-dashed border-beige-400 bg-[#fffdf8] px-6 py-14 text-center shadow-sm">
       <p className="text-lg font-semibold text-beige-900">No registrations match your filters</p>
@@ -23,7 +32,7 @@ export function EmptyState({ onClear }) {
   );
 }
 
-export function ErrorState({ message, onRetry }) {
+export function ErrorState({ message, onRetry }: ErrorStateProps) {
   return (
     <div className="rounded-xl border border-[#e2bbb5] bg-[#fdf3f1] px-6 py-12 text-center shadow-sm">
       <p className="text-lg font-semibold text-[#8a3232]">Cannot reach the API</p>

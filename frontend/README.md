@@ -1,6 +1,6 @@
-# Car Show 2027 — Registration Dashboard (React)
+# Car Show 2027 — Registration Dashboard (React + TypeScript)
 
-Vite + React + Tailwind CSS dashboard for the Car Show Registration System.
+Vite + React + TypeScript + Tailwind CSS dashboard for the Car Show Registration System, checked with ESLint.
 
 ## Scripts
 
@@ -8,7 +8,9 @@ Vite + React + Tailwind CSS dashboard for the Car Show Registration System.
 | --- | --- |
 | `npm install` | Install dependencies |
 | `npm run dev` | Start the dev server on http://localhost:5173 |
-| `npm run build` | Production build into `dist/` |
+| `npm run build` | Type-check with `tsc -b` and build into `dist/` |
+| `npm run typecheck` | Type-check the app without emitting files |
+| `npm run lint` | Run ESLint over the whole project |
 | `npm run preview` | Preview the production build |
 
 ## Environment
@@ -24,13 +26,13 @@ VITE_DATA_SOURCE=api
 
 ## Switching between sample data and the real API
 
-The dashboard reads through `src/api/index.js`, which exports `getRegistrations` and `getSummary`.
-Both implementations return the same JSON shapes, so no component changes are needed.
+The dashboard reads through `src/api/index.ts`, which exports `getRegistrations` and `getSummary`.
+Both implementations return the same typed shapes, so no component changes are needed.
 
 - **Real API:** set `VITE_DATA_SOURCE=api` (default) in `.env.development`. Requests go to
-  `src/api/registrationsApi.js` and reach `http://localhost:5205/api/registrations`.
+  `src/api/registrationsApi.ts` and reach `http://localhost:5205/api/registrations`.
 - **Sample data:** set `VITE_DATA_SOURCE=sample`, then restart `npm run dev`. Requests go to
-  `src/api/sample-data.js`, which holds 25 registrations and filters, pages and totals them in the browser.
+  `src/api/sample-data.ts`, which holds 25 registrations and filters, pages and totals them in the browser.
 
 The header shows a `Live API` or `Sample data` pill so the current source is always visible.
 
@@ -39,27 +41,36 @@ The header shows a `Live API` or `Sample data` pill so the current source is alw
 ```
 src/
 ├── api/
-│   ├── index.js              picks the data source
-│   ├── registrationsApi.js   fetch calls to the C# API
-│   └── sample-data.js        25 local registrations
+│   ├── index.ts              picks the data source
+│   ├── registrationsApi.ts   fetch calls to the C# API
+│   └── sample-data.ts        25 local registrations
 ├── components/
-│   ├── KpiCard.jsx           one card and its skeleton
-│   ├── KpiCards.jsx          the row of six cards
-│   ├── RegistrationFilters.jsx
-│   ├── RegistrationTable.jsx table, skeleton rows
-│   ├── Pagination.jsx
-│   ├── StatusBadge.jsx
-│   └── PaymentBadge.jsx
+│   ├── KpiCard.tsx           one card and its skeleton
+│   ├── KpiCards.tsx          the row of six cards
+│   ├── RegistrationFilters.tsx
+│   ├── RegistrationTable.tsx table and skeleton rows
+│   ├── Pagination.tsx
+│   ├── States.tsx            loading, empty and error panels
+│   ├── StatusBadge.tsx
+│   └── PaymentBadge.tsx
 ├── hooks/
-│   ├── useDebouncedValue.js
-│   └── useDashboardData.js
+│   ├── useDashboardData.ts
+│   └── useDebouncedValue.ts
 ├── pages/
-│   └── RegistrationsPage.jsx
-├── utils/format.js
-├── App.jsx
+│   └── RegistrationsPage.tsx
+├── utils/format.ts
+├── types.ts                  API contract types
+├── App.tsx
 ├── index.css
-└── main.jsx
+├── main.tsx
+└── vite-env.d.ts
 ```
+
+## Tooling
+
+- TypeScript strict mode, `tsc -b` runs before every production build.
+- ESLint flat config with `typescript-eslint`, `eslint-plugin-react-hooks` and `eslint-plugin-react-refresh`.
+- The `Registration`, `PagedRegistrations` and `RegistrationSummary` types in `src/types.ts` mirror the API contract.
 
 ## Screens
 

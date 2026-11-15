@@ -1,6 +1,6 @@
 # Car Show Registration System — Frontend
 
-React dashboard for **Car Show 2027** (AutoVista Events, Sorsogon City Coliseum). Event staff use it to
+React + TypeScript dashboard for **Car Show 2027** (AutoVista Events, Sorsogon City Coliseum). Event staff use it to
 watch the KPI cards, search registrations, filter by type and status, and page through the master list.
 All data comes from the C# Vertical Slice API.
 
@@ -18,13 +18,14 @@ School: Computer Communication Development Institute — Sorsogon Campus
 
 ```
 CarShow_Frontend_Acdal/
-├── frontend/                 React app (Vite)
+├── frontend/                 React + TypeScript app (Vite, Tailwind, ESLint)
 │   ├── src/
-│   │   ├── api/              REST client and sample data
+│   │   ├── api/              typed REST client and sample data
 │   │   ├── components/       KPI cards, filters, table, pagination, badges, states
 │   │   ├── hooks/            debounce and dashboard data hooks
 │   │   ├── pages/            RegistrationsPage layout
-│   │   └── utils/            currency, date and percentage formatting
+│   │   ├── types.ts          API contract types
+│   └── utils/            currency, date and percentage formatting
 │   └── .env.development      API base URL and data source switch
 ├── docs/                     documentation screenshots and reflection PDF
 └── README.md

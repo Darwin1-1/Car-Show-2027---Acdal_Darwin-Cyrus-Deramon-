@@ -1,3 +1,4 @@
+import type { Registration } from '../types';
 import { formatDate, formatPeso } from '../utils/format';
 import { PaymentBadge } from './PaymentBadge';
 import { StatusBadge } from './StatusBadge';
@@ -14,7 +15,12 @@ const headers = [
   'Payment',
 ];
 
-export function RegistrationTable({ items, loading }) {
+interface RegistrationTableProps {
+  items: Registration[];
+  loading: boolean;
+}
+
+export function RegistrationTable({ items, loading }: RegistrationTableProps) {
   return (
     <div className="overflow-x-auto rounded-xl border border-beige-300 bg-[#fffdf8] shadow-sm">
       <table className="min-w-[64rem] w-full border-collapse text-left text-sm">

@@ -1,11 +1,16 @@
-const typeOptions = [
+interface Option {
+  value: string;
+  label: string;
+}
+
+const typeOptions: Option[] = [
   { value: '', label: 'All types' },
   { value: 'Exhibitor', label: 'Exhibitor' },
   { value: 'Competitor', label: 'Competitor' },
   { value: 'VIP', label: 'VIP' },
 ];
 
-const statusOptions = [
+const statusOptions: Option[] = [
   { value: '', label: 'All statuses' },
   { value: 'Pending', label: 'Pending' },
   { value: 'Confirmed', label: 'Confirmed' },
@@ -16,7 +21,27 @@ const statusOptions = [
 const controlClass =
   'mt-1 w-full rounded-lg border border-beige-300 bg-[#fffdf8] px-3 py-2 text-sm text-beige-900 shadow-sm transition hover:border-beige-400 focus:border-beige-500 focus:outline-none';
 
-export function RegistrationFilters({ search, type, status, onSearchChange, onTypeChange, onStatusChange, onClear, disabled }) {
+interface RegistrationFiltersProps {
+  search: string;
+  type: string;
+  status: string;
+  disabled: boolean;
+  onSearchChange: (value: string) => void;
+  onTypeChange: (value: string) => void;
+  onStatusChange: (value: string) => void;
+  onClear: () => void;
+}
+
+export function RegistrationFilters({
+  search,
+  type,
+  status,
+  disabled,
+  onSearchChange,
+  onTypeChange,
+  onStatusChange,
+  onClear,
+}: RegistrationFiltersProps) {
   const hasFilters = Boolean(search || type || status);
 
   return (

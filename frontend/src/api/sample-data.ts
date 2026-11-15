@@ -1,6 +1,8 @@
-const wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
+import type { PagedRegistrations, Registration, RegistrationQuery, RegistrationSummary } from '../types';
 
-const registrations = [
+const wait = (milliseconds: number) => new Promise((resolve) => setTimeout(resolve, milliseconds));
+
+const registrations: Registration[] = [
   { id: 'a1f0c9d2-0f5b-4a11-8f1c-9c1b6a0d0001', registrationNumber: 'CS27-0001', registrationDate: '2026-10-05T08:15:00Z', participantName: 'Juan Dela Cruz', contactNumber: '09171234567', email: 'juan.delacruz@example.com', address: '123 Rizal St., Naga City', carMakeModel: 'Toyota Supra MK4', plateNumber: 'ABC 1234', registrationType: 'Competitor', status: 'Pending', registrationFee: 2500, amountPaid: 1000, paymentStatus: 'Partial' },
   { id: 'a1f0c9d2-0f5b-4a11-8f1c-9c1b6a0d0002', registrationNumber: 'CS27-0002', registrationDate: '2026-10-05T17:15:00Z', participantName: 'Ana Reyes', contactNumber: '09182223344', email: 'ana.reyes@example.com', address: '45 Burgos Ave., Legazpi City', carMakeModel: 'Honda Civic Type R', plateNumber: 'NCR 4821', registrationType: 'Exhibitor', status: 'Confirmed', registrationFee: 1500, amountPaid: 1500, paymentStatus: 'Paid' },
   { id: 'a1f0c9d2-0f5b-4a11-8f1c-9c1b6a0d0003', registrationNumber: 'CS27-0003', registrationDate: '2026-10-06T02:15:00Z', participantName: 'Mark Villanueva', contactNumber: '09195556677', email: 'mark.villanueva@example.com', address: '8 Peñafrancia Ave., Naga City', carMakeModel: 'Nissan Skyline R34', plateNumber: 'DVO 7712', registrationType: 'VIP', status: 'CheckedIn', registrationFee: 5000, amountPaid: 5000, paymentStatus: 'Paid' },
@@ -28,21 +30,24 @@ const registrations = [
   { id: 'a1f0c9d2-0f5b-4a11-8f1c-9c1b6a0d0025', registrationNumber: 'CS27-0025', registrationDate: '2026-10-14T08:15:00Z', participantName: 'Ramon Estrada', contactNumber: '09177779911', email: 'ramon.estrada@example.com', address: '48 Rizal St., Sorsogon City', carMakeModel: 'Toyota Supra A80', plateNumber: 'SOR 3196', registrationType: 'Competitor', status: 'Pending', registrationFee: 2500, amountPaid: 2500, paymentStatus: 'Paid' },
 ];
 
-function matches(registration, filters) {
-  const search = filters.participantName?.trim().toLowerCase();
+function matches(registration: Registration, filters: RegistrationQuery): boolean {
+  const search = filters.participantName.trim().toLowerCase();
   if (search && !registration.participantName.toLowerCase().includes(search)) return false;
   if (filters.type && registration.registrationType !== filters.type) return false;
   if (filters.status && registration.status !== filters.status) return false;
   return true;
 }
 
-export async function getRegistrations(filters, signal) {
+export async function getRegistrations(
+  filters: RegistrationQuery,
+  signal?: AbortSignal,
+): Promise<PagedRegistrations> {
   await wait(450);
   if (signal?.aborted) throw new DOMException('Aborted', 'AbortError');
 
   const filtered = registrations
     .filter((registration) => matches(registration, filters))
-    .sort((left, right) => new Date(right.registrationDate) - new Date(left.registrationDate));
+    .sort((left, right) => new Date(right.registrationDate).getTime() - new Date(left.registrationDate).getTime());
 
   const start = (filters.page - 1) * filters.pageSize;
   const items = filtered.slice(start, start + filters.pageSize);
@@ -56,7 +61,7 @@ export async function getRegistrations(filters, signal) {
   };
 }
 
-export async function getSummary(signal) {
+export async function getSummary(signal?: AbortSignal): Promise<RegistrationSummary> {
   await wait(300);
   if (signal?.aborted) throw new DOMException('Aborted', 'AbortError');
 

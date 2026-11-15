@@ -1,4 +1,11 @@
-export function KpiCard({ label, value, caption, emphasis = false }) {
+interface KpiCardProps {
+  label: string;
+  value: string;
+  caption?: string;
+  emphasis?: boolean;
+}
+
+export function KpiCard({ label, value, caption, emphasis = false }: KpiCardProps) {
   return (
     <article
       className={`rounded-xl border p-4 shadow-sm ${

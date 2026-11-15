@@ -1,7 +1,13 @@
+import type { RegistrationSummary } from '../types';
 import { formatCount, formatPercent, formatPeso } from '../utils/format';
 import { KpiCard, KpiCardSkeleton } from './KpiCard';
 
-export function KpiCards({ summary, loading }) {
+interface KpiCardsProps {
+  summary: RegistrationSummary | null;
+  loading: boolean;
+}
+
+export function KpiCards({ summary, loading }: KpiCardsProps) {
   if (loading && !summary) {
     return (
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">

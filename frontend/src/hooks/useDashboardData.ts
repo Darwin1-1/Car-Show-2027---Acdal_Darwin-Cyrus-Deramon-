@@ -1,15 +1,23 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getRegistrations, getSummary } from '../api';
+import type { PagedRegistrations, RegistrationQuery, RegistrationSummary } from '../types';
 
-const emptyState = {
+interface DashboardState {
+  registrations: PagedRegistrations | null;
+  summary: RegistrationSummary | null;
+  loading: boolean;
+  error: string | null;
+}
+
+const emptyState: DashboardState = {
   registrations: null,
   summary: null,
   loading: true,
   error: null,
 };
 
-export function useDashboardData(filters) {
-  const [state, setState] = useState(emptyState);
+export function useDashboardData(filters: RegistrationQuery): DashboardState & { retry: () => void } {
+  const [state, setState] = useState<DashboardState>(emptyState);
   const [attempt, setAttempt] = useState(0);
 
   const { participantName, type, status, page, pageSize } = filters;
@@ -28,9 +36,11 @@ export function useDashboardData(filters) {
         if (!active) return;
         setState({ registrations, summary, loading: false, error: null });
       })
-      .catch((error) => {
-        if (!active || error.name === 'AbortError') return;
-        setState({ registrations: null, summary: null, loading: false, error: error.message });
+      .catch((error: unknown) => {
+        if (!active) return;
+        if (error instanceof DOMException && error.name === 'AbortError') return;
+        const message = error instanceof Error ? error.message : 'The API request failed.';
+        setState({ registrations: null, summary: null, loading: false, error: message });
       });
 
     return () => {
