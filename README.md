@@ -11,7 +11,7 @@ School: Computer Communication Development Institute — Sorsogon Campus
 
 | Member | Role |
 | --- | --- |
-| Ezekiel Haboc | Backend Developer |
+| Cyrus Deramon | Backend Developer |
 | Darwin Acdal | Frontend Developer |
 
 ## Repository layout
