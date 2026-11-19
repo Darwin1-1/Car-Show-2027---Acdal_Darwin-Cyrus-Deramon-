@@ -16,7 +16,22 @@ public static class GetRegistrationsEndpoint
             .Produces<GetRegistrationsResponse>()
             .ProducesValidationProblem(StatusCodes.Status400BadRequest);
 
+        group.MapGet("{id:guid}", HandleByIdAsync)
+            .WithName("GetRegistrationById")
+            .WithTags("Registrations")
+            .Produces<RegistrationListItem>()
+            .Produces(StatusCodes.Status404NotFound);
+
         return group;
+    }
+
+    private static async Task<IResult> HandleByIdAsync(
+        Guid id,
+        ISender sender,
+        CancellationToken cancellationToken)
+    {
+        var registration = await sender.Send(new GetRegistrationByIdQuery(id), cancellationToken);
+        return registration is null ? Results.NotFound() : Results.Ok(registration);
     }
 
     private static async Task<IResult> HandleAsync(
