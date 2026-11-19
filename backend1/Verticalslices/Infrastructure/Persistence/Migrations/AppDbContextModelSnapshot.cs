@@ -88,9 +88,9 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.ToTable("Registrations", null, t =>
                         {
-                            t.HasCheckConstraint("CK_Registrations_AmountPaid", "\"AmountPaid\" >= 0 AND \"AmountPaid\" <= \"RegistrationFee\"");
+                            t.HasCheckConstraint("CK_Registrations_AmountPaid", "CAST(\"AmountPaid\" AS NUMERIC) >= 0 AND CAST(\"AmountPaid\" AS NUMERIC) <= CAST(\"RegistrationFee\" AS NUMERIC)");
 
-                            t.HasCheckConstraint("CK_Registrations_RegistrationFee", "\"RegistrationFee\" IN (1500, 2500, 5000)");
+                            t.HasCheckConstraint("CK_Registrations_RegistrationFee", "CAST(\"RegistrationFee\" AS NUMERIC) IN (1500, 2500, 5000)");
                         });
                 });
 #pragma warning restore 612, 618

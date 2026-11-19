@@ -144,7 +144,7 @@ public sealed class Registration
 
     public void SetPlateNumber(string plateNumber)
     {
-        PlateNumber = NormalizeRequiredText(plateNumber, nameof(plateNumber));
+        PlateNumber = NormalizeRequiredText(plateNumber, nameof(plateNumber)).ToUpperInvariant();
     }
 
     private void SetRegistrationNumber(string registrationNumber)

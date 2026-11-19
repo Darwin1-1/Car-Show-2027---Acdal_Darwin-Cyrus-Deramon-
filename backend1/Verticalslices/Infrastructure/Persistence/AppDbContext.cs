@@ -20,11 +20,11 @@ public sealed class AppDbContext : DbContext, IAppDbContext
             {
                 table.HasCheckConstraint(
                     "CK_Registrations_AmountPaid",
-                    "\"AmountPaid\" >= 0 AND \"AmountPaid\" <= \"RegistrationFee\"");
+                    "CAST(\"AmountPaid\" AS NUMERIC) >= 0 AND CAST(\"AmountPaid\" AS NUMERIC) <= CAST(\"RegistrationFee\" AS NUMERIC)");
 
                 table.HasCheckConstraint(
                     "CK_Registrations_RegistrationFee",
-                    "\"RegistrationFee\" IN (1500, 2500, 5000)");
+                    "CAST(\"RegistrationFee\" AS NUMERIC) IN (1500, 2500, 5000)");
             });
             entity.HasKey(registration => registration.Id);
 

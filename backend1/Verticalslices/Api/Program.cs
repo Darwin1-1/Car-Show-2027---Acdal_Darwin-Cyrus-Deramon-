@@ -1,6 +1,10 @@
 using Application.Abstractions.Data;
+using Application.Features.Registrations.Create;
+using Api.Features.Registrations.Create;
+using FluentValidation;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +16,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IAppDbContext>(provider =>
     provider.GetRequiredService<AppDbContext>());
+builder.Services.AddMediatR(configuration =>
+    configuration.RegisterServicesFromAssembly(typeof(CreateRegistrationCommand).Assembly));
+builder.Services.AddValidatorsFromAssemblyContaining<CreateRegistrationValidator>();
+builder.Services.ConfigureHttpJsonOptions(options =>
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddControllers();
 
@@ -24,5 +33,6 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.MapControllers();
+app.MapCreateRegistrationEndpoint();
 
 app.Run();
