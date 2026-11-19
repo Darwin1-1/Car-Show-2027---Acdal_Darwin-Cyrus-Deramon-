@@ -1,6 +1,7 @@
 using Application.Abstractions.Data;
 using Application.Features.Registrations.Create;
 using Api.Features.Registrations.Create;
+using Api.Features.Registrations.Get;
 using FluentValidation;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -34,5 +35,6 @@ using (var scope = app.Services.CreateScope())
 
 app.MapControllers();
 app.MapCreateRegistrationEndpoint();
+app.MapGetRegistrationsEndpoint();
 
 app.Run();
