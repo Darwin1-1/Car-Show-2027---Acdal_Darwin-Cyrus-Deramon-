@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace Application.Abstractions.Data
+namespace Application.Abstractions.Data;
+
+public interface IAppDbContext
 {
-    internal class IAppDbContext
-    {
-    }
+    DbSet<global::Domain.Entities.Registration> Registrations { get; }
+
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

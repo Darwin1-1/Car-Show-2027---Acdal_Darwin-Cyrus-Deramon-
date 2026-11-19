@@ -1,6 +1,7 @@
+using Domain.Enums;
 using System.Text.RegularExpressions;
 
-namespace Domain;
+namespace Domain.Entities;
 
 public sealed class Registration
 {
